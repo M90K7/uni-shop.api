@@ -11,7 +11,7 @@ export const productSchema = new Schema<IProduct>({
   score: { type: Number, required: false },
   scoreCount: { type: Number, required: false },
   imagePath: { type: String, required: false },
-  category: { type: String, required: true },
+  category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   isAvailable: { type: Boolean, required: true },
   // attributes is object of key-value pairs
   attributes: {
@@ -20,3 +20,4 @@ export const productSchema = new Schema<IProduct>({
   },
   keywords: [String],
 });
+

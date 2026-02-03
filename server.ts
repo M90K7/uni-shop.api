@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import cors from "cors";
 import express from "express";
+import path from "node:path";
 import { addProductsApi } from "./src/api/products/products.api.ts";
 import { syncAllIndexes } from "./src/db/db-context.ts";
 import { useDb } from "./src/db/use-db.ts";
@@ -27,6 +28,8 @@ app.use(cors({
   },
   credentials: true // مهم برای ارسال کوکی یا Authorization header
 }));
+
+app.use(express.static(path.join(process.cwd(), "public")));
 
 
 addProductsApi(app);

@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "npm run api",
-    "api": "deno --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read ./server.ts",
+    "api": "deno --watch --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read ./server.ts",
     "test": "deno --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read ./test/main.js > ./test/test.log"
   },
   "keywords": [],

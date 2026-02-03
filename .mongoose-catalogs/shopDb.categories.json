@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "6982177de08012226699002d"
+  },
+  "persianTitle": "موبایل",
+  "englishTitle": "mobile",
+  "url": "mobile"
+},
+{
+  "_id": {
+    "$oid": "698218e7e08012226699002f"
+  },
+  "persianTitle": "خانه و آشپزخانه",
+  "englishTitle": "home-and-kitchen",
+  "url": "home-and-kitchen"
+},
+{
+  "_id": {
+    "$oid": "69821907e080122266990030"
+  },
+  "persianTitle": "آرایشی و بهداشتی",
+  "englishTitle": "personal-appliance",
+  "url": "personal-appliance"
+},
+{
+  "_id": {
+    "$oid": "6982193be080122266990031"
+  },
+  "persianTitle": "لپ تاپ",
+  "englishTitle": "laptop",
+  "url": "laptop"
+}]

@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, getAllProducts } from "./products.logic.ts";
+import { addProduct, getAllProducts, getProductsWithHigherScore } from "./products.logic.ts";
 
 export function addProductsApi(app: express.Express) {
 
@@ -13,11 +13,15 @@ export function addProductsApi(app: express.Express) {
     }
   });
 
-  app.post('/api/products', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  app.get('/api/products', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-      const filters = req.body;
-      const products = await getAllProducts();
-      res.json(products);
+      const products = await getAllProducts(req.query);
+      res.json({
+        result: {
+          records: products,
+          totalCount: products.length
+        }
+      });
     } catch (err) {
       next(err);
     }
@@ -26,13 +30,26 @@ export function addProductsApi(app: express.Express) {
   app.get("/api/product/popular", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
     try {
-      const filters = req.body;
-      const products = await getAllProducts();
-      res.json(products);
+      // const filters = req.body;
+      const products = await getProductsWithHigherScore();
+      res.json({
+        result: products
+      });
     } catch (err) {
       next(err);
     }
+  });
+  app.get("/api/product/special", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
+    try {
+      // const filters = req.body;
+      const products = await getProductsWithHigherScore();
+      res.json({
+        result: products
+      });
+    } catch (err) {
+      next(err);
+    }
   });
 }
 

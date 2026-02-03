@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { ICategory } from "./category.ts";
 
 export interface ProductAttribute {
   title: string;
@@ -15,7 +16,7 @@ export interface IProduct {
   score?: number;
   scoreCount?: number;
   imagePath: string;
-  category: string;
+  category: ICategory;
   isAvailable: boolean;
   attributes: Map<string, ProductAttribute>;
   keywords: string[];

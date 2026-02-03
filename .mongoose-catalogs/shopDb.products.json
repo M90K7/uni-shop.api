@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "69821c6cbe2d6ecda6fe1f1f"
+  },
+  "persianTitle": "لپ تاپ 15.6 اینچی ایسر",
+  "englishTitle": "Aspire 3 A325-45-N15JPJ-Celeron",
+  "url": "aspire-3-A325-45-N15JPJ-Celeron",
+  "price": 32890000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 5,
+  "scoreCount": 2,
+  "imagePath": "products/aspire-3.png",
+  "category": {
+    "$oid": "6982193be080122266990031"
+  },
+  "isAvailable": true,
+  "attributes": {
+    "سازنده پردازنده": "Intel",
+    "سری پردازنده": "Celeron",
+    "مدل پردازنده گرافیکی": "UHD Graphics (integrated)",
+    "ظرفیت حافظه رم (RAM)": "۸ گیگابایت",
+    "نوع حافظه رم (RAM)": "DDR۴",
+    "سایز صفحه نمایش": "۱۵.۶ اینچ",
+    "نوع صفحه نمایش (پنل)": "IPS level panel"
+  },
+  "keywords": [
+    "Acer",
+    "Aspire 3",
+    "لپ تاپ",
+    "ایسر"
+  ],
+  "__v": 0
+}]
