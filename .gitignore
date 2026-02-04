@@ -48,3 +48,5 @@ Thumbs.db
 .angular/
 
 deno.exe
+.vscode/**
+.vscode/settings.json

@@ -29,4 +29,12 @@
   "persianTitle": "لپ تاپ",
   "englishTitle": "laptop",
   "url": "laptop"
+},
+{
+  "_id": {
+    "$oid": "6983871a8e60f42b525ba318"
+  },
+  "persianTitle": "کتابخانه",
+  "englishTitle": "Books",
+  "url": "Books"
 }]

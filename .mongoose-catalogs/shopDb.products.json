@@ -31,4 +31,280 @@
     "ایسر"
   ],
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6983145b8e60f42b525ba30e"
+  },
+  "persianTitle": "لپ تاپ 16 اینچی اچ‌ پی",
+  "englishTitle": "OMEN 16 Gaming",
+  "url": "OMEN-16-Gaming",
+  "price": 250000000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 2,
+  "scoreCount": 1,
+  "imagePath": "products/OMEN-16-Gaming.png",
+  "category": "6982193be080122266990031",
+  "isAvailable": true,
+  "attributes": {
+    "سازنده پردازنده": "Intel",
+    "نسل پردازنده": "نسل ۲ سری Core Ultra اینتل",
+    "سازنده پردازنده گرافیکی": "NVIDIA",
+    "مدل پردازنده گرافیکی": "GeForce RTX ۵۰۶۰",
+    "ظرفیت حافظه رم (RAM)": "۳۲ گیگابایت",
+    "نوع حافظه رم (RAM)": "DDR۵",
+    "صفحه نمایش لمسی": "ندارد",
+    "سایز صفحه نمایش": "16 اینچ",
+    "نوع باتری": "Li-ion Polymer"
+  },
+  "keywords": [
+    "OMEN 16",
+    "Gaming",
+    "لپ تاپ",
+    "اچ پی"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698321728e60f42b525ba310"
+  },
+  "persianTitle": "اپل مدل تک سیم کارت",
+  "englishTitle": "iPhone 17 Pro",
+  "url": "iPhone-17-Pro",
+  "price": 292999000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.6,
+  "scoreCount": 276,
+  "imagePath": "products/iPhone 17 Pro.png",
+  "category": "6982177de08012226699002d",
+  "isAvailable": true,
+  "attributes": {
+    "ریجن": "سنگاپور",
+    "نوع گوشی موبایل": "سیستم عامل iOS",
+    "فناوری صفحه‌ نمایش": "LTPO Super Retina XDR OLED",
+    "اندازه": "۶.۹ اینچ",
+    "تراشه": "Apple A۱۹ Pro (۳ nm)",
+    "پردازنده": "شش هسته‌ای ",
+    "حافظه داخلی": "۲۵۶ گیگابایت",
+    "مقدار RAM": "۱۲ گیگابایت",
+    "تعداد دوربین‌های پشت گوشی": "۳ ماژول دوربین",
+    "نوع لنز دوربین اصلی": "عریض"
+  },
+  "keywords": [
+    "iPhone 17",
+    "Pro",
+    "موبایل",
+    "اپل مدل تک سیم کارت"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698326728e60f42b525ba313"
+  },
+  "persianTitle": "شیائومی ",
+  "englishTitle": "iPoco F6 ",
+  "url": "iPoco-F6",
+  "price": 48499000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.6,
+  "scoreCount": 23,
+  "imagePath": "products/iPoco-F6.png",
+  "category": "6982177de08012226699002d",
+  "isAvailable": true,
+  "attributes": {
+    "نوع گوشی موبایل": "سیستم عامل اندروید",
+    "دسته ‌بندی": " میان‌رده",
+    "فناوری صفحه‌ نمایش": "AMOLED",
+    "اندازه": "6.67 اینچ",
+    "تراشه": "Qualcomm SM۸۶۳۵ Snapdragon ۸s Gen ۳ (۴ nm)",
+    "پردازنده": "هشت هسته‌ای (یک هسته ۳ گیگاهرتزیCortex-X۴ - چهارهسته ۲.۸ گیگاهرتزی از نوع Cortex-A۷۲۰ و سه هسته ۲ گیگاهرتزی از نوع Cortex-A۵۲۰)  ",
+    "حافظه داخلی": "۵۱۲ گیگابایت",
+    "مقدار RAM": "۱۲ گیگابایت",
+    "تعداد دوربین‌های پشت گوشی": "2 ماژول دوربین",
+    " رزولوشن دوربین اصلی  ": "۵۰ مگاپیکسل"
+  },
+  "keywords": [
+    "iPoco",
+    "F6",
+    "موبایل",
+    "شیائومی"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698378b98e60f42b525ba314"
+  },
+  "persianTitle": "اسمگ",
+  "englishTitle": "ECF01",
+  "url": "ECF-01",
+  "price": 58000000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.7,
+  "scoreCount": 22,
+  "imagePath": "products/ECF01.png",
+  "category": "698218e7e08012226699002f",
+  "isAvailable": true,
+  "attributes": {
+    "ابعاد": "۳۲۹ × ۱۴۹ × ۳۳۰ سانتی‌متر",
+    "طول سیم": "۱ سانتی متر",
+    "توان مصرفی": "۱۳۵۰ وات",
+    "تعداد نازل قهوه": "۲ عدد",
+    "منو نوشیدنی": "اسپرسو کاپوچینو"
+  },
+  "keywords": [
+    "ECF",
+    "01",
+    "اسپرسوساز",
+    "اسمگ"
+  ]
+},
+{
+  "_id": {
+    "$oid": "69837d7e8e60f42b525ba315"
+  },
+  "persianTitle": "فیلیپس",
+  "englishTitle": "HR7301",
+  "url": "HR-7301",
+  "price": 13900000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 3.7,
+  "scoreCount": 3,
+  "imagePath": "products/HR7301.png",
+  "category": "698218e7e08012226699002f",
+  "isAvailable": true,
+  "attributes": {
+    "امکانات ظاهری": "پنل ارگونومیک",
+    "جنس تیغه": "فولاد ضد زنگ",
+    "نوع عملکرد": "عملکرد توربو (Turbo)",
+    "تعداد تنظیمات سرعت": "۳ حالت سرعت",
+    "ظرفیت مخلوط کن": "۲ لیتر",
+    "جنس ظرف خردکن": "پلاستیک فشرده"
+  },
+  "keywords": [
+    "HR",
+    "7301",
+    "غذاساز",
+    "فیلیپس"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698381978e60f42b525ba316"
+  },
+  "persianTitle": " ژک سافت",
+  "englishTitle": "sweet love ",
+  "url": "sweet-love ",
+  "price": 1167650,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.3,
+  "scoreCount": 62,
+  "imagePath": "products/sweet love.png",
+  "category": "69821907e080122266990030",
+  "isAvailable": true,
+  "attributes": {
+    "حجم": "۱۰۰ میلی‌لیتر",
+    "کشور مبدا برند": "فرانسه",
+    "ساختار رایحه": "گرم شیرین تند",
+    "مناسب برای فصل": "بهار پاییز زمستان"
+  },
+  "keywords": [
+    "sweet ",
+    "love",
+    "ادکلن",
+    "ژک سافت"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698384598e60f42b525ba317"
+  },
+  "persianTitle": " نئودرم ",
+  "englishTitle": "Olive Dex ",
+  "url": "Olive-Dex",
+  "price": 229700,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.2,
+  "scoreCount": 4126,
+  "imagePath": "products/Olive Dex.png",
+  "category": "69821907e080122266990030",
+  "isAvailable": true,
+  "attributes": {
+    "کشور مبدا برند": "ایران",
+    "سازگار با پوست‌‌های": "انواع پوست",
+    "حجم": "۱۵۰ میلی‌لیتر",
+    "وزن": "۱ گرم",
+    "ترکیبات": "روغن های طبیعی",
+    "ویتامین‌ها و مواد معدنی موجود": "E B۵"
+  },
+  "keywords": [
+    "Olive ",
+    "Dex",
+    "کرم مرطوب کننده دست",
+    "نئودرم"
+  ]
+},
+{
+  "_id": {
+    "$oid": "698387e98e60f42b525ba319"
+  },
+  "persianTitle": "کیمیاگر",
+  "englishTitle": "Book 1",
+  "url": "Book-1",
+  "price": 220000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.5,
+  "scoreCount": 1307,
+  "imagePath": "products/Book1.png",
+  "category": "6983871a8e60f42b525ba318",
+  "isAvailable": true,
+  "attributes": {
+    "نویسنده": "پائولو کوئیلو",
+    "مترجم": "حسین نعیمی",
+    "موضوع": "رمان خارجی",
+    "ناشر": "ثالث",
+    "تعداد صفحه": "۲۴۴"
+  },
+  "keywords": [
+    "Book",
+    "1",
+    "کتاب",
+    "کیمیاگر"
+  ]
+},
+{
+  "_id": {
+    "$oid": "69838aaa8e60f42b525ba31a"
+  },
+  "persianTitle": "قصر",
+  "englishTitle": "Book 2",
+  "url": "Book-2",
+  "price": 420000,
+  "priceAfterDiscount": 0,
+  "discountAmount": 0,
+  "score": 4.4,
+  "scoreCount": 118,
+  "imagePath": "products/Book2.png",
+  "category": "6983871a8e60f42b525ba318",
+  "isAvailable": true,
+  "attributes": {
+    "نویسنده": "فرانتس کافکا",
+    "مترجم": "علی اصغر حداد",
+    "موضوع": "رمان خارجی",
+    "ناشر": "ماهی",
+    "تعداد صفحه": "۴۲۶"
+  },
+  "keywords": [
+    "Book",
+    "2",
+    "کتاب",
+    "قصر"
+  ]
 }]

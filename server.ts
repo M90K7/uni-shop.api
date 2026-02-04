@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 const allowedOrigins = ["http://localhost:4200"]; // دامنه فرانت‌اند
 
 app.use(cors({
-  origin: function (origin, callback) {
+  origin: function (origin: any, callback: any) {
     // اگر origin وجود ندارد (مثلاً برای curl یا server-to-server)، اجازه بده
     if (!origin) return callback(null, true);
 
