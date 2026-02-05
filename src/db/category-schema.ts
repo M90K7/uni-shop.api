@@ -1,5 +1,5 @@
+import { ICategory } from "@app/models";
 import { Schema } from "mongoose";
-import { ICategory } from "../models/category.ts";
 
 export const categorySchema = new Schema<ICategory>({
   persianTitle: { type: String, required: true },

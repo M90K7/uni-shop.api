@@ -45,7 +45,9 @@
   "score": 2,
   "scoreCount": 1,
   "imagePath": "products/OMEN-16-Gaming.png",
-  "category": "6982193be080122266990031",
+  "category": {
+    "$oid": "6982193be080122266990031"
+  },
   "isAvailable": true,
   "attributes": {
     "سازنده پردازنده": "Intel",
@@ -78,7 +80,9 @@
   "score": 4.6,
   "scoreCount": 276,
   "imagePath": "products/iPhone 17 Pro.png",
-  "category": "6982177de08012226699002d",
+  "category": {
+    "$oid": "6982177de08012226699002d"
+  },
   "isAvailable": true,
   "attributes": {
     "ریجن": "سنگاپور",
@@ -96,7 +100,8 @@
     "iPhone 17",
     "Pro",
     "موبایل",
-    "اپل مدل تک سیم کارت"
+    "اپل مدل تک سیم کارت",
+    "mobile"
   ]
 },
 {
@@ -112,7 +117,9 @@
   "score": 4.6,
   "scoreCount": 23,
   "imagePath": "products/iPoco-F6.png",
-  "category": "6982177de08012226699002d",
+  "category": {
+    "$oid": "6982177de08012226699002d"
+  },
   "isAvailable": true,
   "attributes": {
     "نوع گوشی موبایل": "سیستم عامل اندروید",
@@ -130,7 +137,8 @@
     "iPoco",
     "F6",
     "موبایل",
-    "شیائومی"
+    "شیائومی",
+    "mobile"
   ]
 },
 {
@@ -146,7 +154,9 @@
   "score": 4.7,
   "scoreCount": 22,
   "imagePath": "products/ECF01.png",
-  "category": "698218e7e08012226699002f",
+  "category": {
+    "$oid": "698218e7e08012226699002f"
+  },
   "isAvailable": true,
   "attributes": {
     "ابعاد": "۳۲۹ × ۱۴۹ × ۳۳۰ سانتی‌متر",
@@ -175,7 +185,9 @@
   "score": 3.7,
   "scoreCount": 3,
   "imagePath": "products/HR7301.png",
-  "category": "698218e7e08012226699002f",
+  "category": {
+    "$oid": "698218e7e08012226699002f"
+  },
   "isAvailable": true,
   "attributes": {
     "امکانات ظاهری": "پنل ارگونومیک",
@@ -205,7 +217,9 @@
   "score": 4.3,
   "scoreCount": 62,
   "imagePath": "products/sweet love.png",
-  "category": "69821907e080122266990030",
+  "category": {
+    "$oid": "69821907e080122266990030"
+  },
   "isAvailable": true,
   "attributes": {
     "حجم": "۱۰۰ میلی‌لیتر",
@@ -233,7 +247,9 @@
   "score": 4.2,
   "scoreCount": 4126,
   "imagePath": "products/Olive Dex.png",
-  "category": "69821907e080122266990030",
+  "category": {
+    "$oid": "69821907e080122266990030"
+  },
   "isAvailable": true,
   "attributes": {
     "کشور مبدا برند": "ایران",
@@ -263,7 +279,9 @@
   "score": 4.5,
   "scoreCount": 1307,
   "imagePath": "products/Book1.png",
-  "category": "6983871a8e60f42b525ba318",
+  "category": {
+    "$oid": "6983871a8e60f42b525ba318"
+  },
   "isAvailable": true,
   "attributes": {
     "نویسنده": "پائولو کوئیلو",
@@ -292,7 +310,9 @@
   "score": 4.4,
   "scoreCount": 118,
   "imagePath": "products/Book2.png",
-  "category": "6983871a8e60f42b525ba318",
+  "category": {
+    "$oid": "6983871a8e60f42b525ba318"
+  },
   "isAvailable": true,
   "attributes": {
     "نویسنده": "فرانتس کافکا",
