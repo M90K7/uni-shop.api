@@ -5,7 +5,7 @@ export async function addProduct(product: IProduct) {
   return await context.product.create(product);
 }
 
-export function getAllProducts({ sort, search, minPrice, maxPrice, category }: ApiFilter) {
+export function getAllProducts({ sorts, search, minPrice, maxPrice, category }: ApiFilter) {
   console.log('Fetching all products');
   const query: any = {};
 
@@ -40,7 +40,19 @@ export function getAllProducts({ sort, search, minPrice, maxPrice, category }: A
     // category is ObjectId
     query.category = category;
   }
-  return context.product.find(query).populate("category").sort({ createdAt: sort === '-date' ? -1 : 1 }).exec();
+  const sort: any = {};
+  if (sorts === "-date") {
+    // sort.createdAt = -1;
+  }
+  else if (sorts === "-views") {
+    sort.scoreCount = -1;
+  } else if (sorts === "-score") {
+    sort.score = -1;
+  } else if (sorts === "price") {
+    sort.price = 1;
+  }
+
+  return context.product.find(query).populate("category").sort(sort).exec();
 }
 
 export function getProductsWithHigherScore() {
@@ -51,4 +63,9 @@ export function getProductsWithHigherScore() {
 export function getProductById(id: string) {
   console.log(`Fetching product with id: ${id}`);
   return context.product.findById(id).populate("category").exec();
+}
+
+export function getProductByCategoryId(categoryId: string, notProductId: string) {
+  console.log(`Fetching product with category id: ${categoryId}`);
+  return context.product.find({ category: categoryId, _id: { $ne: notProductId } }).populate("category").exec();
 }

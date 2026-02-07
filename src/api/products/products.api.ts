@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, getAllProducts, getProductsWithHigherScore } from "./products.logic.ts";
+import { addProduct, getAllProducts, getProductByCategoryId, getProductById, getProductsWithHigherScore } from "./products.logic.ts";
 
 export function addProductsApi(app: express.Express) {
 
@@ -22,6 +22,36 @@ export function addProductsApi(app: express.Express) {
           totalCount: products.length
         }
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get('/api/products/:id', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+      const product = await getProductById(req.params.id as string);
+      res.json({
+        result: product
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get('/api/products/:id/similar', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+      const product = await getProductById(req.params.id as string);
+      if (product != null) {
+        const products = await getProductByCategoryId(product.category._id as string, req.params.id as string);
+        res.json({
+          result: products
+        });
+      } else {
+        res.json({
+          result: null,
+          isError: true
+        });
+      }
     } catch (err) {
       next(err);
     }

@@ -7,8 +7,10 @@ export interface ProductAttribute {
 }
 
 export interface IProduct {
+  _id: string;
   persianTitle: string;
   englishTitle?: string;
+  description: string;
   url: string;
   price: number;
   priceAfterDiscount?: number;
@@ -22,4 +24,4 @@ export interface IProduct {
   keywords: string[];
 }
 
-export interface IProductDocument extends IProduct, Document { }
+export interface IProductDocument extends IProduct, Document<string> { }

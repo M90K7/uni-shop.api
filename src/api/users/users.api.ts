@@ -1,6 +1,9 @@
-import { IUserDocument } from "@app/models";
+import { addCart, getCart } from "@app/cart";
+import { IProduct, IUserDocument } from "@app/models";
 import { createSession, getSessionIdFromToken, removeSession } from "@app/session";
 import express from 'express';
+import { addProductInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
+import { getProductById } from "../products/products.logic.ts";
 import { getUserById, login } from "./users.logic.ts";
 
 export function addUsersApi(app: express.Express) {
@@ -42,6 +45,85 @@ export function addUsersApi(app: express.Express) {
       result: user ? createSessionUser(user) : null,
       isError: false,
       message: "User information retrieved successfully"
+    });
+  });
+
+  app.get("/api/user/shopping-cart", (req, res) => {
+    const uId = getSessionIdFromToken(req.headers.authorization);
+    if (!uId) {
+      return res.status(401).json({
+        result: null,
+        isError: true,
+        message: "Unauthorized"
+      });
+    }
+    return res.json({
+      result: getCart(uId),
+      isError: false,
+      message: "User shopping cart retrieved successfully"
+    });
+  });
+
+  app.post("/api/user/shopping-cart", async (req, res) => {
+    const uId = getSessionIdFromToken(req.headers.authorization);
+    if (!uId) {
+      return res.status(401).json({
+        result: null,
+        isError: true,
+        message: "Unauthorized"
+      });
+    }
+    const product = await getProductById(req.body.productId);
+    addCart(uId, product as IProduct);
+    return res.json({
+      result: getCart(uId),
+      isError: false,
+      message: "User shopping cart retrieved successfully"
+    });
+  });
+
+  app.get("/api/user/products/:id", async (req, res) => {
+    const uId = getSessionIdFromToken(req.headers.authorization);
+    if (!uId) {
+      return res.status(401).json({
+        result: null,
+        isError: true,
+        message: "Unauthorized"
+      });
+    }
+    const isFavorite = await isProductInFavorites(uId, req.params.id);
+    return res.json({
+      result: {
+        isFavorite
+      },
+      isError: false,
+      message: "User favorite status retrieved successfully"
+    });
+  });
+  app.post("/api/user/favorites/:id", async (req, res) => {
+    const uId = getSessionIdFromToken(req.headers.authorization);
+    if (!uId) {
+      return res.status(401).json({
+        result: null,
+        isError: true,
+        message: "Unauthorized"
+      });
+    }
+    const isFavorite = await isProductInFavorites(uId, req.params.id);
+    if (isFavorite) {
+      const fav = await removeProductInFavorites(uId, req.params.id);
+      return res.json({
+        result: true,
+        isError: false,
+        message: "User favorite product removed successfully"
+      });
+    }
+
+    const fav = await addProductInFavorites(uId, req.params.id);
+    return res.json({
+      result: fav,
+      isError: false,
+      message: "User favorite product added successfully"
     });
   });
 }

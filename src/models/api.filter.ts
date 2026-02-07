@@ -4,5 +4,5 @@ export interface ApiFilter {
   minPrice?: string;
   maxPrice?: string;
   category?: string;
-  sort?: '-date';
+  sorts?: '-date';
 }

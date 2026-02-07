@@ -3,6 +3,7 @@
     "@app/db": "./src/db/index.ts",
     "@app/models": "./src/models/index.ts",
     "@app/utils": "./utils/index.ts",
-    "@app/session": "./src/cache/sessions.ts"
+    "@app/session": "./src/cache/sessions.ts",
+    "@app/cart": "./src/cache/carts.ts"
   }
 }

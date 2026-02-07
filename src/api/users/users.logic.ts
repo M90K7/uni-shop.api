@@ -22,3 +22,4 @@ export async function login(params: { username: string; password: string; }) {
 export function getUserById(id: string) {
   return context.user.findOne({ _id: id });
 }
+
