@@ -1,4 +1,5 @@
 import express from 'express';
+import { getProductComments } from "../comments/comments.logic.ts";
 import { addProduct, getAllProducts, getProductByCategoryId, getProductById, getProductsWithHigherScore } from "./products.logic.ts";
 
 export function addProductsApi(app: express.Express) {
@@ -42,7 +43,7 @@ export function addProductsApi(app: express.Express) {
     try {
       const product = await getProductById(req.params.id as string);
       if (product != null) {
-        const products = await getProductByCategoryId(product.category._id as string, req.params.id as string);
+        const products = await getProductByCategoryId(product.category._id.toString(), req.params.id as string);
         res.json({
           result: products
         });
@@ -76,6 +77,18 @@ export function addProductsApi(app: express.Express) {
       const products = await getProductsWithHigherScore();
       res.json({
         result: products
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+  app.get("/api/products/:id/comments", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // ?page=1
+    const { page = 1 } = req.query;
+    try {
+      const comments = await getProductComments(req.params.id as string, +page);
+      res.json({
+        result: comments
       });
     } catch (err) {
       next(err);

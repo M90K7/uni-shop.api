@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, ObjectId, Types } from 'mongoose';
 import { ICategory } from "./category.ts";
 
 export interface ProductAttribute {
@@ -7,7 +7,7 @@ export interface ProductAttribute {
 }
 
 export interface IProduct {
-  _id: string;
+  _id: Types.ObjectId;
   persianTitle: string;
   englishTitle?: string;
   description: string;
@@ -24,4 +24,4 @@ export interface IProduct {
   keywords: string[];
 }
 
-export interface IProductDocument extends IProduct, Document<string> { }
+export interface IProductDocument extends IProduct, Document { }

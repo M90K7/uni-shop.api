@@ -14,4 +14,5 @@ export const userSchema = new Schema<IUser>({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   avatarPath: { type: String, default: "user" },
+  carts: { type: [String], default: [] }
 });

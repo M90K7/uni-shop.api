@@ -13,6 +13,8 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
   avatarPath: string;
+  // شناسه های محصول سبد خرید
+  carts: string[];
 }
 
 export interface IUserDocument extends IUser, Document { }
