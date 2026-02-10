@@ -2,14 +2,15 @@ import { Document, Types } from "mongoose";
 
 export interface IComment {
   _id: Types.ObjectId;
+  userId: Types.ObjectId;
+  productId: Types.ObjectId;
   replyToId?: Types.ObjectId;
-  userAvatar: string;
   userFullName: string;
-  userScore?: number;
   comment: string;
+  userScore?: number;
   createdAt: Date;
   createdAtFa: Date;
-  approved: false;
+  approved: boolean;
 }
 
 export interface ICommentDocument extends IComment, Document { }

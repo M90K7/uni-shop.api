@@ -13,11 +13,26 @@ export const productSchema = new Schema<IProduct>({
   imagePath: { type: String, required: false },
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   isAvailable: { type: Boolean, required: true },
-  // attributes is object of key-value pairs
   attributes: {
     type: Map,
     of: String
   },
   keywords: [String],
+  avgUserScores: {
+    contentScore: { type: Number, required: true },
+    priceScore: { type: Number, required: true },
+    supportScore: { type: Number, required: true },
+    productScore: { type: Number, required: true }
+  },
+  userScores: {
+    type: Map,
+    of: {
+      contentScore: { type: Number, required: true },
+      priceScore: { type: Number, required: true },
+      supportScore: { type: Number, required: true },
+      productScore: { type: Number, required: true }
+    },
+    select: false
+  }
 });
 

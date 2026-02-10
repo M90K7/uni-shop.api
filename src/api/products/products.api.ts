@@ -1,6 +1,7 @@
 import express from 'express';
+import { _200 } from "../_status.ts";
 import { getProductComments } from "../comments/comments.logic.ts";
-import { addProduct, getAllProducts, getProductByCategoryId, getProductById, getProductsWithHigherScore } from "./products.logic.ts";
+import { addProduct, getAllProducts, getAvgProductScore, getProductByCategoryId, getProductById, getProductsWithHigherScore } from "./products.logic.ts";
 
 export function addProductsApi(app: express.Express) {
 
@@ -39,6 +40,15 @@ export function addProductsApi(app: express.Express) {
     }
   });
 
+  app.get('/api/products/:id/scores', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+      const avgScores = await getAvgProductScore(req.params.id as string);
+      return _200(res, avgScores);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.get('/api/products/:id/similar', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
       const product = await getProductById(req.params.id as string);
@@ -70,6 +80,7 @@ export function addProductsApi(app: express.Express) {
       next(err);
     }
   });
+
   app.get("/api/product/special", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 
     try {
@@ -82,6 +93,7 @@ export function addProductsApi(app: express.Express) {
       next(err);
     }
   });
+
   app.get("/api/products/:id/comments", async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     // ?page=1
     const { page = 1 } = req.query;

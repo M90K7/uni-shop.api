@@ -6,6 +6,13 @@ export interface ProductAttribute {
   value: string;
 }
 
+export interface ProductUserScore {
+  contentScore: number;
+  priceScore: number;
+  supportScore: number;
+  productScore: number;
+}
+
 export interface IProduct {
   _id: Types.ObjectId;
   persianTitle: string;
@@ -22,6 +29,8 @@ export interface IProduct {
   isAvailable: boolean;
   attributes: Map<string, ProductAttribute>;
   keywords: string[];
+  avgUserScores: ProductUserScore;
+  userScores: Map<string, ProductUserScore>;
 }
 
 export interface IProductDocument extends IProduct, Document { }

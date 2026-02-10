@@ -1,12 +1,17 @@
 import { addCart, getCarts, removeCart } from "@app/cart";
-import { IProduct, ISessionDocument, IUserDocument } from "@app/models";
+import { IProduct, ISessionDocument, IUserDocument, ProductUserScore } from "@app/models";
 import express from 'express';
+import { _200, _400, _401 } from "../_status.ts";
+import { addComment } from "../comments/comments.logic.ts";
 import { addProductInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
-import { getProductById } from "../products/products.logic.ts";
+import { findUserScoreInProduct, getProductById, updateUserScoreProduct } from "../products/products.logic.ts";
 import { addSession, disableSession, validateSessionByToken } from "../sessions/sessions.logic.ts";
+import { addUsersInfoApi } from "./users.info.api.ts";
 import { getUserById, login } from "./users.logic.ts";
 
 export function addUsersApi(app: express.Express) {
+
+  addUsersInfoApi(app);
 
   app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
@@ -103,6 +108,73 @@ export function addUsersApi(app: express.Express) {
       message: "User favorite status retrieved successfully"
     });
   });
+
+  app.post("/api/user/products/:id/comment", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+    if (!session) {
+      return _401(res);
+    }
+    const user = await getUserById(session.userId);
+    if (!user) {
+      return _401(res);
+    }
+    const { comment, replyToId } = req.body;
+    if (!comment) {
+      return _400(res, "Comment is required");
+    }
+
+    const data = await addComment(user, req.params.id, comment, replyToId);
+    return _200(res, data, "Comment added successfully");
+  });
+
+  app.get("/api/user/products/:id/score", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+    if (!session) {
+      return _401(res);
+    }
+    const user = await getUserById(session.userId);
+    if (!user) {
+      return _401(res);
+    }
+    const product = await findUserScoreInProduct(session.userId, req.params.id);
+    return _200(res, product?.userScores?.get(session.userId));
+  });
+
+  app.post("/api/user/products/:id/score", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+    if (!session) {
+      return _401(res);
+    }
+    const user = await getUserById(session.userId);
+    if (!user) {
+      return _401(res);
+    }
+    const product = await getProductById(req.params.id);
+    if (!product) {
+      return _400(res, "Product not found");
+    }
+    const { contentScore, priceScore, supportScore, productScore } = req.body;
+
+    const scoreCount = (product.scoreCount || 0) + 1;
+    const userAvg = (contentScore + priceScore + supportScore + productScore) / 4;
+    const avgUserScores: ProductUserScore = {
+      contentScore: ((product.avgUserScores?.contentScore || 0) + contentScore) / scoreCount,
+      priceScore: ((product.avgUserScores?.priceScore || 0) + priceScore) / scoreCount,
+      supportScore: ((product.avgUserScores?.supportScore || 0) + supportScore) / scoreCount,
+      productScore: ((product.avgUserScores?.productScore || 0) + productScore) / scoreCount
+    };
+    const avg = ((product.score || 0) + userAvg) / scoreCount;
+
+    await updateUserScoreProduct(session.userId, product._id.toString(), avg, scoreCount, avgUserScores, {
+      contentScore,
+      priceScore,
+      supportScore,
+      productScore
+    });
+
+    return _200(res, true);
+  });
+
   app.post("/api/user/favorites/:id", async (req, res) => {
     const session = await validateSessionByToken(req.headers.authorization);
     if (!session) {
@@ -134,6 +206,7 @@ function createSessionUser(user: IUserDocument, session: ISessionDocument) {
       id: user._id,
       userId: user._id,
       password: null,
+      fullName: (`${user.firstName || ''} ${user.lastName || ''}`).trim()
     },
     profile: {
       iss: user._id.toString(),
@@ -153,10 +226,3 @@ function createSessionUser(user: IUserDocument, session: ISessionDocument) {
 
 }
 
-function _401(res: express.Response) {
-  return res.status(401).json({
-    result: null,
-    isError: true,
-    message: "Unauthorized"
-  });
-}

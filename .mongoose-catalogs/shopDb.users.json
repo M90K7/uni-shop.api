@@ -12,5 +12,12 @@
   "phoneNumberConfirmed": false,
   "createdAt": "2026-02-05T12:00:00",
   "updatedAt": "2026-02-05T12:00:00",
-  "avatarPath": null
+  "avatarPath": null,
+  "carts": [
+    "698321728e60f42b525ba310",
+    "69821c6cbe2d6ecda6fe1f1f"
+  ],
+  "firstName": "علی",
+  "gender": 0,
+  "lastName": "شاهسون"
 }]

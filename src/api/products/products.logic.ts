@@ -1,5 +1,5 @@
 import { context } from "@app/db";
-import { ApiFilter, IProduct } from "@app/models";
+import { ApiFilter, IProduct, ProductUserScore } from "@app/models";
 
 export async function addProduct(product: IProduct) {
   return await context.product.create(product);
@@ -68,4 +68,38 @@ export function getProductById(id: string) {
 export function getProductByCategoryId(categoryId: string, notProductId: string) {
   console.log(`Fetching product with category id: ${categoryId}`);
   return context.product.find({ category: categoryId, _id: { $ne: notProductId } }).populate("category").exec();
+}
+
+// create a user score product
+// update score and scoreCount value
+export function updateUserScoreProduct(userId: string,
+  productId: string, score: number, scoreCount: number,
+  avgUserScores: ProductUserScore, userScore: ProductUserScore) {
+  return context.product.updateOne(
+    { _id: productId },
+    {
+      $set: {
+        score,
+        scoreCount,
+        avgUserScores,
+        [`userScores.${userId}`]: userScore
+      }
+    }
+  );
+}
+
+// find user score product
+export function findUserScoreInProduct(userId: string, productId: string) {
+  return context.product.findOne(
+    { _id: productId },
+    { [`userScores.${userId}`]: 1 }
+  ).select('+userScores');
+}
+
+// get product score
+export function getAvgProductScore(productId: string) {
+  return context.product.findOne(
+    { _id: productId },
+    { avgUserScores: 1, score: 1, scoreCount: 1 }
+  );
 }

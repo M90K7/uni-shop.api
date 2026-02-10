@@ -2,15 +2,17 @@ import { context } from "@app/db";
 import { ICommentDocument, IUser } from "@app/models";
 
 // add comment
-export function addComment(user: IUser, comment: string): Promise<ICommentDocument> {
+export function addComment(user: IUser, productId: string, comment: string, replyToId?: string): Promise<ICommentDocument> {
   const newComment = new context.comment({
-    userAvatar: user.avatarPath,
+    userId: user._id,
+    productId,
+    replyToId,
     userFullName: user.fullName,
-    userScore: 0,
     comment,
     createdAt: new Date(),
     createdAtFa: new Date(),
-    approved: true
+    approved: true,
+    userScore: 0,
   });
   return newComment.save();
 }

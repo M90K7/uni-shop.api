@@ -19,7 +19,15 @@ export async function login(params: { username: string; password: string; }) {
   return user as IUserDocument;
 }
 
-export function getUserById(id: string) {
+export function getUserById(id: string): Promise<IUserDocument | null> {
   return context.user.findOne({ _id: id });
 }
 
+// update user information
+export function updateUser(id: string, data: Partial<IUserDocument>): Promise<IUserDocument | null> {
+  return context.user.findOneAndUpdate(
+    { _id: id },
+    { $set: data },
+    { new: true }
+  );
+}
