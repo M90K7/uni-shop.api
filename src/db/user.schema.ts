@@ -21,5 +21,6 @@ export const userSchema = new Schema<IUser>({
   cityOfResidenceId: { type: Number, required: false },
   addressOfResidence: { type: String, required: false },
   postalCodeOfResidence: { type: String, required: false },
+  userBankAccounts: { type: [Object], default: [] },
   carts: { type: [String], default: [] }
 });

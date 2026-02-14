@@ -2,8 +2,8 @@ import { addCart, getCarts, removeCart } from "@app/cart";
 import { IProduct, ISessionDocument, IUserDocument, ProductUserScore } from "@app/models";
 import express from 'express';
 import { _200, _400, _401 } from "../_status.ts";
-import { addComment } from "../comments/comments.logic.ts";
-import { addProductInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
+import { addComment, getUserComments } from "../comments/comments.logic.ts";
+import { addProductInFavorites, getProductsInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
 import { findUserScoreInProduct, getProductById, updateUserScoreProduct } from "../products/products.logic.ts";
 import { addSession, disableSession, validateSessionByToken } from "../sessions/sessions.logic.ts";
 import { addUsersInfoApi } from "./users.info.api.ts";
@@ -63,6 +63,18 @@ export function addUsersApi(app: express.Express) {
       result: await getCarts(session.userId),
       isError: false,
       message: "User shopping cart retrieved successfully"
+    });
+  });
+
+  app.get("/api/user/products", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+    if (!session) {
+      return _401(res);
+    }
+    return res.json({
+      result: [],
+      isError: false,
+      message: "User products retrieved successfully"
     });
   });
 
@@ -197,6 +209,38 @@ export function addUsersApi(app: express.Express) {
       message: "User favorite product added successfully"
     });
   });
+
+  app.get("/api/user/favorites", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+
+    if (!session) {
+      return _401(res);
+    }
+    const favs = await getProductsInFavorites(session.userId);
+
+    return res.json({
+      result: favs.map(f => f.product),
+      isError: false,
+      message: "User favorite product added successfully"
+    });
+  });
+
+  app.get("/api/user/comments", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+
+    if (!session) {
+      return _401(res);
+    }
+    const comments = await getUserComments(session.userId);
+
+    return res.json({
+      result: comments,
+      isError: false,
+      message: "User comments retrieved successfully"
+    });
+  });
+
+
 }
 
 function createSessionUser(user: IUserDocument, session: ISessionDocument) {

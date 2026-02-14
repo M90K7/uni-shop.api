@@ -1,6 +1,13 @@
 import { Document, Types } from 'mongoose';
 
 
+export interface UserBankAccount {
+  id?: number;
+  cardNumber: string;
+  shabaNumber: string;
+  verified?: boolean;
+}
+
 export interface IUser {
   _id: Types.ObjectId;
   username: string;
@@ -23,6 +30,7 @@ export interface IUser {
   cityOfResidenceId: number;
   addressOfResidence: string;
   postalCodeOfResidence: string;
+  userBankAccounts: UserBankAccount[];
   // شناسه های محصول سبد خرید
   carts: string[];
 }

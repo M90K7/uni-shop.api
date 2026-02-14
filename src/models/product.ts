@@ -25,7 +25,7 @@ export interface IProduct {
   score?: number;
   scoreCount?: number;
   imagePath: string;
-  category: ICategory;
+  category: ICategory | Types.ObjectId;
   isAvailable: boolean;
   attributes: Map<string, ProductAttribute>;
   keywords: string[];

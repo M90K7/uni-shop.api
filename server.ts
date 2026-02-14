@@ -2,9 +2,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import express from "express";
 import path from "node:path";
-import { addConfigurationsApi } from "./src/api/configuration/configuration.api.ts";
-import { addProductsApi } from "./src/api/products/products.api.ts";
-import { addUsersApi } from "./src/api/users/users.api.ts";
+import { addApis } from "./src/api/exports-api.ts";
 import { syncAllIndexes } from "./src/db/db-context.ts";
 import { useDb } from "./src/db/use-db.ts";
 
@@ -34,8 +32,7 @@ app.use(cors({
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // addConfigurationsApi(app);
-addProductsApi(app);
-addUsersApi(app);
+addApis(app);
 
 // OPTIONS preflight
 app.options("/", cors({

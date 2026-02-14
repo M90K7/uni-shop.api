@@ -16,7 +16,7 @@ export function _401(res: express.Response) {
   });
 }
 
-export function _400(res: express.Response, message: string) {
+export function _400(res: express.Response, message: string = "Bad request.") {
   return res.status(400).json({
     result: null,
     isError: true,
