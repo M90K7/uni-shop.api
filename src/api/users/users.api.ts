@@ -6,12 +6,16 @@ import { addComment, getUserComments } from "../comments/comments.logic.ts";
 import { addProductInFavorites, getProductsInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
 import { findUserScoreInProduct, getProductById, updateUserScoreProduct } from "../products/products.logic.ts";
 import { addSession, disableSession, validateSessionByToken } from "../sessions/sessions.logic.ts";
+import { addUsersDiscountApi } from "./users.discount.api.ts";
 import { addUsersInfoApi } from "./users.info.api.ts";
 import { getUserById, login } from "./users.logic.ts";
+import { addUsersTicketApi } from "./users.ticket.api.ts";
 
 export function addUsersApi(app: express.Express) {
 
   addUsersInfoApi(app);
+  addUsersDiscountApi(app);
+  addUsersTicketApi(app);
 
   app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
@@ -240,7 +244,19 @@ export function addUsersApi(app: express.Express) {
     });
   });
 
+  app.get("/api/user/factors", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
 
+    if (!session) {
+      return _401(res);
+    }
+
+    return res.json({
+      result: [],
+      isError: false,
+      message: "User factors retrieved successfully"
+    });
+  });
 }
 
 function createSessionUser(user: IUserDocument, session: ISessionDocument) {
