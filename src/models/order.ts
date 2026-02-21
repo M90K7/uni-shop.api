@@ -15,7 +15,7 @@ export interface IOrder {
   _id: Types.ObjectId;
   user: IUser | Types.ObjectId;
   orderItems: OrderItem[];
-  discount: IDiscount | Types.ObjectId;
+  discount?: IDiscount | Types.ObjectId;
   totalPrice: number | null;
   totalDiscount: number | null;
   discountCode: string;

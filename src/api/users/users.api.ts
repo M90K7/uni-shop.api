@@ -1,12 +1,14 @@
-import { addCart, getCarts, removeCart } from "@app/cart";
 import { IProduct, ISessionDocument, IUserDocument, ProductUserScore } from "@app/models";
 import express from 'express';
 import { _200, _400, _401 } from "../_status.ts";
 import { addComment, getUserComments } from "../comments/comments.logic.ts";
 import { addProductInFavorites, getProductsInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
+import { getProductsInOrdersOfUser } from "../orders/orders.logic.ts";
 import { findUserScoreInProduct, getProductById, updateUserScoreProduct } from "../products/products.logic.ts";
 import { addSession, disableSession, validateSessionByToken } from "../sessions/sessions.logic.ts";
+import { addCart, getCarts, removeCart } from "./users.carts.logic.ts";
 import { addUsersDiscountApi } from "./users.discount.api.ts";
+import { addUsersFactorApi } from "./users.factor.api.ts";
 import { addUsersInfoApi } from "./users.info.api.ts";
 import { getUserById, login } from "./users.logic.ts";
 import { addUsersTicketApi } from "./users.ticket.api.ts";
@@ -16,6 +18,7 @@ export function addUsersApi(app: express.Express) {
   addUsersInfoApi(app);
   addUsersDiscountApi(app);
   addUsersTicketApi(app);
+  addUsersFactorApi(app);
 
   app.post("/api/auth/login", async (req, res) => {
     const { username, password } = req.body;
@@ -75,8 +78,11 @@ export function addUsersApi(app: express.Express) {
     if (!session) {
       return _401(res);
     }
+
+    const products = await getProductsInOrdersOfUser(session.userId);
+
     return res.json({
-      result: [],
+      result: products,
       isError: false,
       message: "User products retrieved successfully"
     });
@@ -241,20 +247,6 @@ export function addUsersApi(app: express.Express) {
       result: comments,
       isError: false,
       message: "User comments retrieved successfully"
-    });
-  });
-
-  app.get("/api/user/factors", async (req, res) => {
-    const session = await validateSessionByToken(req.headers.authorization);
-
-    if (!session) {
-      return _401(res);
-    }
-
-    return res.json({
-      result: [],
-      isError: false,
-      message: "User factors retrieved successfully"
     });
   });
 }

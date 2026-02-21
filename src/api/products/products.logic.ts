@@ -65,6 +65,11 @@ export function getProductById(id: string) {
   return context.product.findById(id).populate("category").exec();
 }
 
+export function getProductByIds(ids: string[]) {
+  console.log(`Fetching product with id: ${ids}`);
+  return context.product.find({ _id: { $in: ids } }).exec();
+}
+
 export function getProductByCategoryId(categoryId: string, notProductId: string) {
   console.log(`Fetching product with category id: ${categoryId}`);
   return context.product.find({ category: categoryId, _id: { $ne: notProductId } }).populate("category").exec();
