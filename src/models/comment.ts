@@ -11,7 +11,6 @@ export interface IComment {
   comment: string;
   userScore?: number;
   createdAt: Date;
-  createdAtFa: Date;
   approved: boolean;
 }
 
