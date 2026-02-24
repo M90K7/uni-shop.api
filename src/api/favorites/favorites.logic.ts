@@ -17,3 +17,20 @@ export function removeProductInFavorites(userId: string, productId: string) {
 export function getProductsInFavorites(userId: string) {
   return context.favorite.find({ user: userId }).populate("product").exec();
 }
+
+export function getAllSumProductFavorites() {
+  // return product model with populated product data
+  return context.favorite.aggregate([
+    { $match: {} },
+    { $group: { _id: "$product", count: { $sum: 1 } } },
+    {
+      $lookup: {
+        from: "products",
+        localField: "_id",
+        foreignField: "_id",
+        as: "product"
+      }
+    },
+    { $unwind: "$product" }
+  ]).sort({ count: -1 }).exec();
+}

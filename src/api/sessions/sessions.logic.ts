@@ -3,9 +3,10 @@ import { ISessionDocument } from "@app/models";
 import * as express from "express";
 
 // add session
-export function addSession(userId: string, req: express.Request): Promise<ISessionDocument> {
+export function addSession(userId: string, role: string, req: express.Request): Promise<ISessionDocument> {
   const newSession = new context.session({
     userId,
+    role,
     createdAt: new Date(),
     updatedAt: new Date(),
     ip: req.ip,

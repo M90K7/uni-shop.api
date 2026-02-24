@@ -2,7 +2,8 @@ import { Document, Types } from "mongoose";
 
 export interface ISession {
   _id: Types.ObjectId;
-  userId: Types.ObjectId;
+  userId: string;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
   ip: string;

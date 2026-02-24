@@ -3,6 +3,7 @@ import { Schema } from "mongoose";
 
 export const sessionSchema = new Schema<ISessionDocument>({
   userId: { type: String, required: true },
+  role: { type: String, required: true },
   createdAt: { type: Date, required: true },
   updatedAt: { type: Date, required: true },
   ip: { type: String, required: true },

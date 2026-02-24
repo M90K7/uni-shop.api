@@ -29,3 +29,7 @@ export function getProductComments(productId: string, page: number): Promise<ICo
 export function getUserComments(userId: string): Promise<ICommentDocument[]> {
   return context.comment.find({ user: userId }).populate("product").exec();
 }
+
+export function getAllComments(): Promise<ICommentDocument[]> {
+  return context.comment.find({}).sort({ createdAt: -1 }).populate("product").populate("user").exec();
+}

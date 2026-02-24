@@ -1,11 +1,11 @@
-import { Document, ObjectId } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface ICategory {
-  _id: ObjectId;
+  _id: Types.ObjectId;
   persianTitle: string;
   englishTitle?: string;
   imagePath?: string;
   url: string;
 }
 
-export interface ICategoryDocument extends ICategory, Document<ObjectId> { }
+export interface ICategoryDocument extends ICategory, Document<Types.ObjectId> { }

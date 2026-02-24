@@ -42,6 +42,11 @@ export function getOrderById(_id: string) {
   return context.order.findById(_id).populate("user").populate("orderItems.product");
 }
 
+export function getAllOrders() {
+  // order transactionTime desc
+  return context.order.find({}).sort({ transactionTime: -1 }).populate("user").populate("orderItems.product").exec();
+}
+
 export function getUserOrders(userId: string) {
   return context.order.find({ user: userId }).populate("orderItems.product");
 }

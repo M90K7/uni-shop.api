@@ -30,7 +30,7 @@ export function addUsersApi(app: express.Express) {
         message: "Login failed"
       });
     }
-    const session = await addSession(user._id.toString(), req);
+    const session = await addSession(user._id.toString(), user.role || "customer", req);
     res.json({
       result: user ? createSessionUser(user, session) : null,
       isError: !user,

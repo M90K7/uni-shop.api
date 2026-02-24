@@ -47,3 +47,4 @@ export function removeUserBankAccount(userId: string, shabaNumber: string): Prom
     { new: true }
   );
 }
+
