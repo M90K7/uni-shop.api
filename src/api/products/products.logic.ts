@@ -1,5 +1,5 @@
 import { context } from "@app/db";
-import { ApiFilter, IProduct, ProductUserScore } from "@app/models";
+import { ApiFilter, IProduct, IProductDocument, ProductUserScore } from "@app/models";
 
 export async function addProduct(product: IProduct) {
   return await context.product.create(product);
@@ -107,4 +107,16 @@ export function getAvgProductScore(productId: string) {
     { _id: productId },
     { avgUserScores: 1, score: 1, scoreCount: 1 }
   );
+}
+
+export function updateProduct(id: string, data: Partial<IProductDocument>): Promise<IProductDocument | null> {
+  return context.product.findOneAndUpdate(
+    { _id: id },
+    { $set: data },
+    { new: true }
+  );
+}
+
+export function deleteProduct(id: string): Promise<IProductDocument | null> {
+  return context.product.findOneAndDelete({ _id: id });
 }

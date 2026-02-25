@@ -1,5 +1,6 @@
 import { IProduct, ISessionDocument, IUserDocument, ProductUserScore } from "@app/models";
 import express from 'express';
+import { isAdmin } from "../_auth.ts";
 import { _200, _400, _401 } from "../_status.ts";
 import { addComment, getUserComments } from "../comments/comments.logic.ts";
 import { addProductInFavorites, getProductsInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
@@ -10,7 +11,7 @@ import { addCart, getCarts, removeCart } from "./users.carts.logic.ts";
 import { addUsersDiscountApi } from "./users.discount.api.ts";
 import { addUsersFactorApi } from "./users.factor.api.ts";
 import { addUsersInfoApi } from "./users.info.api.ts";
-import { getUserById, login } from "./users.logic.ts";
+import { getAllUsers, getUserById, login } from "./users.logic.ts";
 import { addUsersTicketApi } from "./users.ticket.api.ts";
 
 export function addUsersApi(app: express.Express) {

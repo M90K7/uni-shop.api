@@ -23,15 +23,6 @@ export function getUserById(id: string): Promise<IUserDocument | null> {
   return context.user.findOne({ _id: id });
 }
 
-// update user information
-export function updateUser(id: string, data: Partial<IUserDocument>): Promise<IUserDocument | null> {
-  return context.user.findOneAndUpdate(
-    { _id: id },
-    { $set: data },
-    { new: true }
-  );
-}
-
 export function addUserBankAccount(userId: string, account: UserBankAccount): Promise<IUserDocument | null> {
   return context.user.findOneAndUpdate(
     { _id: userId },
@@ -48,3 +39,15 @@ export function removeUserBankAccount(userId: string, shabaNumber: string): Prom
   );
 }
 
+export function getAllUsers() {
+  return context.user.find({}).select("-carts").exec();
+}
+
+// update user information
+export function updateUser(id: string, data: Partial<IUserDocument>): Promise<IUserDocument | null> {
+  return context.user.findOneAndUpdate(
+    { _id: id },
+    { $set: data },
+    { new: true }
+  );
+}

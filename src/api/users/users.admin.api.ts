@@ -1,0 +1,41 @@
+
+import express from 'express';
+import { isAdmin } from "../_auth.ts";
+import { _200, _401 } from "../_status.ts";
+import { validateSessionByToken } from "../sessions/sessions.logic.ts";
+import { getAllUsers, updateUser } from "./users.logic.ts";
+
+
+export function addUsersAdminApi(app: express.Express) {
+  app.get("/api/users", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+
+    if (!session) {
+      return _401(res);
+    }
+
+    if (!isAdmin(session)) {
+      return _401(res);
+    }
+
+    const users = await getAllUsers();
+
+    return _200(res, users);
+  });
+
+  app.put("/api/users/:id", async (req, res) => {
+    const session = await validateSessionByToken(req.headers.authorization);
+
+    if (!session) {
+      return _401(res);
+    }
+
+    if (!isAdmin(session)) {
+      return _401(res);
+    }
+    delete req.body._id;
+    const user = await updateUser(req.params.id, req.body);
+
+    _200(res, user);
+  });
+}

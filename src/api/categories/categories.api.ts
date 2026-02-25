@@ -39,8 +39,8 @@ export function addCategoriesApi(app: express.Express) {
       return _401(res);
     }
 
-    const { id } = req.params;
-    const updatedCategory = await updateCategory(id, req.body);
+    delete req.body._id;
+    const updatedCategory = await updateCategory(req.params.id, req.body);
     return _200(res, updatedCategory);
   });
 
