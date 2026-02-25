@@ -4,7 +4,7 @@ import { IUser } from "../models/index.ts";
 
 export const userSchema = new Schema<IUser>({
   username: { type: String, required: true },
-  password: { type: String, required: true, select: false },
+  password: { type: String, required: true },
   role: { type: String, required: true },
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },

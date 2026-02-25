@@ -1,9 +1,6 @@
 import { context } from "@app/db";
 import { ApiFilter, IProduct, IProductDocument, ProductUserScore } from "@app/models";
 
-export async function addProduct(product: IProduct) {
-  return await context.product.create(product);
-}
 
 export function getAllProducts({ sorts, search, minPrice, maxPrice, category }: ApiFilter) {
   console.log('Fetching all products');
@@ -109,12 +106,27 @@ export function getAvgProductScore(productId: string) {
   );
 }
 
+export function addProduct(product: IProduct) {
+  product.avgUserScores = {
+    contentScore: 0,
+    priceScore: 0,
+    productScore: 0,
+    supportScore: 0
+  };
+  product.score = 0;
+  product.scoreCount = 0;
+  product.userScores = new Map();
+
+  const newProduct = new context.product(product);
+  return newProduct.save();
+}
+
 export function updateProduct(id: string, data: Partial<IProductDocument>): Promise<IProductDocument | null> {
   return context.product.findOneAndUpdate(
     { _id: id },
     { $set: data },
     { new: true }
-  );
+  ).populate("category");
 }
 
 export function deleteProduct(id: string): Promise<IProductDocument | null> {

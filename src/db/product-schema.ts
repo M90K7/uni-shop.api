@@ -4,6 +4,7 @@ import { IProduct } from "../models/index.ts";
 export const productSchema = new Schema<IProduct>({
   persianTitle: { type: String, required: true },
   englishTitle: { type: String, required: false },
+  description: { type: String, required: true },
   url: { type: String, required: true },
   price: { type: Number, required: true },
   priceAfterDiscount: { type: Number, required: false },
