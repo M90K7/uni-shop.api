@@ -23,13 +23,14 @@ export interface IUser {
   birthdate: Date;
   educationDegree: number;
   educationMajor: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   avatarPath: string;
   provinceOfResidenceId: number;
   cityOfResidenceId: number;
   addressOfResidence: string;
   postalCodeOfResidence: string;
+  isAvailable: boolean;
   userBankAccounts: UserBankAccount[];
   // شناسه های محصول سبد خرید
   carts: string[];

@@ -1,6 +1,8 @@
 import { context } from "@app/db";
 import { ApiFilter, IProduct, IProductDocument, ProductUserScore } from "@app/models";
-
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
 
 export function getAllProducts({ sorts, search, minPrice, maxPrice, category }: ApiFilter) {
   console.log('Fetching all products');
@@ -39,7 +41,7 @@ export function getAllProducts({ sorts, search, minPrice, maxPrice, category }: 
   }
   const sort: any = {};
   if (sorts === "-date") {
-    // sort.createdAt = -1;
+    sort.modifiedAt = -1;
   }
   else if (sorts === "-views") {
     sort.scoreCount = -1;
@@ -106,7 +108,7 @@ export function getAvgProductScore(productId: string) {
   );
 }
 
-export function addProduct(product: IProduct) {
+export async function addProduct(product: IProduct) {
   product.avgUserScores = {
     contentScore: 0,
     priceScore: 0,
@@ -116,12 +118,17 @@ export function addProduct(product: IProduct) {
   product.score = 0;
   product.scoreCount = 0;
   product.userScores = new Map();
+  product.createdAt = new Date();
+  product.modifiedAt = new Date();
 
   const newProduct = new context.product(product);
-  return newProduct.save();
+  await newProduct.save();
+  await newProduct.populate('category');
+  return newProduct;
 }
 
 export function updateProduct(id: string, data: Partial<IProductDocument>): Promise<IProductDocument | null> {
+  data.modifiedAt = new Date();
   return context.product.findOneAndUpdate(
     { _id: id },
     { $set: data },
@@ -131,4 +138,25 @@ export function updateProduct(id: string, data: Partial<IProductDocument>): Prom
 
 export function deleteProduct(id: string): Promise<IProductDocument | null> {
   return context.product.findOneAndDelete({ _id: id });
+}
+
+export function deleteProductImage(imagePath: string): Promise<boolean> {
+  // فقط path نسبی مجاز
+  const safePath = path.normalize(imagePath).replace(/^(\.\.(\/|\\|$))+/, '');
+
+  const fullPath = path.join(
+    process.cwd(),
+    'public',
+    safePath
+  );
+
+  return new Promise<boolean>((res, rej) => {
+    fs.unlink(fullPath, (err) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(true);
+      }
+    });
+  });
 }

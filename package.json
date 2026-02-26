@@ -5,8 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "npm run api",
-    "api": "deno --watch --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read ./server.ts",
-    "test": "deno --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read ./test/main.js > ./test/test.log"
+    "api": "deno --watch --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read --allow-write ./server.ts",
+    "test": "deno --allow-net --unsafely-ignore-certificate-errors --allow-env --allow-sys --allow-read --allow-write ./test/main.js > ./test/test.log"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +17,11 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "jalali-moment": "^3.3.11",
-    "mongoose": "^9.1.5"
+    "mongoose": "^9.1.5",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
+    "@types/multer": "^2.0.0",
     "@types/express": "^5.0.6"
   },
   "volta": {

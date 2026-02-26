@@ -7,6 +7,8 @@ export function getAllCategories() {
 }
 
 export function updateCategory(id: string, data: Partial<ICategoryDocument>): Promise<ICategoryDocument | null> {
+  data.modifiedAt = new Date();
+
   return context.category.findOneAndUpdate(
     { _id: id },
     { $set: data },
@@ -15,6 +17,9 @@ export function updateCategory(id: string, data: Partial<ICategoryDocument>): Pr
 }
 
 export function createCategory(data: ICategoryDocument): Promise<ICategoryDocument> {
+  data.createdAt = new Date();
+  data.modifiedAt = new Date();
+
   const newCategory = new context.category(data);
   return newCategory.save();
 }

@@ -7,6 +7,8 @@ import {
   IFavorite, IFavoriteDocument,
   IOrder,
   IOrderDocument,
+  IPage,
+  IPageDocument,
   IProduct, IProductDocument,
   ISession, ISessionDocument,
   ITicket,
@@ -18,6 +20,7 @@ import { categorySchema } from "./category-schema.ts";
 import { commentSchema } from "./commnet-schema.ts";
 import { discountSchema } from "./discount-schema.ts";
 import { favoriteSchema } from "./favorite.schema.ts";
+import { pageSchema } from "./home-page.schema.ts";
 import { orderSchema } from "./order-schema.ts";
 import { productSchema } from "./product-schema.ts";
 import { sessionSchema } from "./session-schema.ts";
@@ -51,6 +54,9 @@ const Ticket: mongoose.Model<ITicketDocument> =
 const Order: mongoose.Model<IOrderDocument> =
   mongoose.models.Order || mongoose.model<IOrder>('Order', orderSchema);
 
+const Page: mongoose.Model<IPageDocument> =
+  mongoose.models.Page || mongoose.model<IPage>('Page', pageSchema);
+
 export const context = {
   product: Product,
   category: Category,
@@ -60,6 +66,7 @@ export const context = {
   comment: Comment,
   discount: Discount,
   ticket: Ticket,
+  page: Page,
   order: Order
 };
 
@@ -73,4 +80,5 @@ export async function syncAllIndexes() {
   await context.discount.syncIndexes();
   await context.ticket.syncIndexes();
   await context.order.syncIndexes();
+  await context.page.syncIndexes();
 }

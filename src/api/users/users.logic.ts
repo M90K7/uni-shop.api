@@ -43,11 +43,25 @@ export function getAllUsers() {
   return context.user.find({}).select("-carts").exec();
 }
 
+export function createUser(data: IUserDocument): Promise<IUserDocument> {
+  data.createdAt = new Date();
+  data.updatedAt = new Date();
+
+  const newUser = new context.user(data);
+  return newUser.save();
+}
+
 // update user information
 export function updateUser(id: string, data: Partial<IUserDocument>): Promise<IUserDocument | null> {
+  data.updatedAt = new Date();
+
   return context.user.findOneAndUpdate(
     { _id: id },
     { $set: data },
     { new: true }
   );
+}
+
+export function deleteUser(id: string): Promise<IUserDocument | null> {
+  return context.user.findOneAndDelete({ _id: id });
 }

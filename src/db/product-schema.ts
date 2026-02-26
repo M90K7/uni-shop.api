@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { IProduct } from "../models/index.ts";
+import { toFaDate } from "./_convert.ts";
 
 export const productSchema = new Schema<IProduct>({
   persianTitle: { type: String, required: true },
@@ -34,6 +35,10 @@ export const productSchema = new Schema<IProduct>({
       productScore: { type: Number, required: true }
     },
     select: false
-  }
+  },
+  createdAt: { type: Date, default: Date.now, get: toFaDate },
+  modifiedAt: { type: Date, default: Date.now, get: toFaDate }
+}, {
+  toJSON: { getters: true },
+  toObject: { getters: true }
 });
-

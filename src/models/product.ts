@@ -31,6 +31,8 @@ export interface IProduct {
   keywords: string[];
   avgUserScores: ProductUserScore;
   userScores: Map<string, ProductUserScore>;
+  createdAt: Date | string;
+  modifiedAt: Date | string;
 }
 
 export interface IProductDocument extends IProduct, Document { }
