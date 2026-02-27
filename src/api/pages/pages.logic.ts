@@ -7,18 +7,30 @@ export function getAllPages() {
 
 export async function getPage(name: string) {
   let page: IPageDocument | null = await context.page.findOne({ name })
-    .select({ mainSectionTitle: 1, mainSectionProducts: 1 })
+    // .select({ mainSectionTitle: 1, mainSectionProducts: 1 })
     .populate({
-      path: 'mainSectionProducts'
+      path: "mainSectionProducts",
+      populate: {
+        path: "category",
+        // select: "title slug", // اختیاری
+      },
     })
     .populate({
-      path: 'rightSectionProducts'
+      path: "rightSectionProducts",
+      populate: {
+        path: "category",
+        // select: "title slug", // اختیاری
+      },
     })
     .populate({
-      path: 'leftSectionProducts'
+      path: "leftSectionProducts",
+      populate: {
+        path: "category",
+        // select: "title slug", // اختیاری
+      },
     })
     .populate({
-      path: 'comments'
+      path: "comments",
     })
     .exec();
 
@@ -29,17 +41,18 @@ export async function getPage(name: string) {
   return page;
 }
 
-export function updatePage(id: string, data: Partial<IPageDocument>): Promise<IPageDocument | null> {
+export function updatePage(id: string, data: Partial<IPageDocument>,): Promise<IPageDocument | null> {
   data.modifiedAt = new Date();
 
   return context.page.findOneAndUpdate(
     { _id: id },
     { $set: data },
-    { new: true }
+    { new: true },
   );
 }
 
 export function createPage(data: Partial<IPageDocument>): Promise<IPageDocument> {
+
   data.createdAt = new Date();
   data.modifiedAt = new Date();
 
@@ -50,4 +63,3 @@ export function createPage(data: Partial<IPageDocument>): Promise<IPageDocument>
 export function deletePage(id: string): Promise<IPageDocument | null> {
   return context.page.findOneAndDelete({ _id: id });
 }
-

@@ -1,6 +1,6 @@
-
 import { ICommentDocument } from "@app/models";
 import { Schema } from "mongoose";
+import { toFaDate } from "./_convert.ts";
 
 export const commentSchema = new Schema<ICommentDocument>({
   _id: { type: Schema.Types.ObjectId, auto: true },
@@ -10,7 +10,10 @@ export const commentSchema = new Schema<ICommentDocument>({
   product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
   userScore: { type: Number, default: null },
   comment: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  createdAtFa: { type: Date, default: Date.now },
-  approved: { type: Boolean, default: true }
+  createdAt: { type: Date, default: Date.now, get: toFaDate },
+  modifiedAt: { type: Date, default: Date.now, get: toFaDate },
+  approved: { type: Boolean, default: true },
+}, {
+  toJSON: { getters: true },
+  toObject: { getters: true },
 });

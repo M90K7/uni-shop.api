@@ -5,12 +5,18 @@ import { IProduct } from "./product.ts";
 export interface IPage {
   _id: Types.ObjectId;
   name: string;
+  
   mainSectionTitle: string;
   mainSectionProducts: IProduct[] | Types.ObjectId[];
+  mainSectionActive: boolean;
+
   rightSectionTitle: string;
   rightSectionProducts: IProduct[] | Types.ObjectId[];
+  rightSectionActive: boolean;
+
   leftSectionTitle: string;
   leftSectionProducts: IProduct[] | Types.ObjectId[];
+  leftSectionActive: boolean;
 
   categoryTitle: string;
   categoryImagePath: string;

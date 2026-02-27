@@ -19,6 +19,26 @@ export async function login(params: { username: string; password: string; }) {
   return user as IUserDocument;
 }
 
+export function checkUsernameOrEmailOrMobile(username: string, emailOrMobile: string): Promise<IUserDocument | null> {
+  return context.user.findOne({
+    $or: [
+      { username },
+      { email: emailOrMobile },
+      { phoneNumber: emailOrMobile }
+    ]
+  });
+}
+
+export function findUserByUsernameAndEmailOrMobile(username: string, emailOrMobile: string): Promise<IUserDocument | null> {
+  return context.user.findOne({
+    username,
+    $or: [
+      { email: emailOrMobile },
+      { phoneNumber: emailOrMobile }
+    ]
+  });
+}
+
 export function getUserById(id: string): Promise<IUserDocument | null> {
   return context.user.findOne({ _id: id });
 }
@@ -54,6 +74,8 @@ export function createUser(data: IUserDocument): Promise<IUserDocument> {
 // update user information
 export function updateUser(id: string, data: Partial<IUserDocument>): Promise<IUserDocument | null> {
   data.updatedAt = new Date();
+  delete data.createdAt;
+  delete data._id;
 
   return context.user.findOneAndUpdate(
     { _id: id },

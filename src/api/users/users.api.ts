@@ -1,21 +1,46 @@
-import { IProduct, ISessionDocument, IUserDocument, ProductUserScore } from "@app/models";
-import express from 'express';
+import {
+  IProduct,
+  ISessionDocument,
+  IUserDocument,
+  ProductUserScore,
+} from "@app/models";
+import express from "express";
 import { isAdmin } from "../_auth.ts";
 import { _200, _400, _401 } from "../_status.ts";
 import { addComment, getUserComments } from "../comments/comments.logic.ts";
-import { addProductInFavorites, getProductsInFavorites, isProductInFavorites, removeProductInFavorites } from "../favorites/favorites.logic.ts";
+import {
+  addProductInFavorites,
+  getProductsInFavorites,
+  isProductInFavorites,
+  removeProductInFavorites,
+} from "../favorites/favorites.logic.ts";
 import { getProductsInOrdersOfUser } from "../orders/orders.logic.ts";
-import { findUserScoreInProduct, getProductById, updateUserScoreProduct } from "../products/products.logic.ts";
-import { addSession, disableSession, validateSessionByToken } from "../sessions/sessions.logic.ts";
+import {
+  findUserScoreInProduct,
+  getProductById,
+  updateUserScoreProduct,
+} from "../products/products.logic.ts";
+import {
+  addSession,
+  disableSession,
+  validateSessionByToken,
+} from "../sessions/sessions.logic.ts";
 import { addCart, getCarts, removeCart } from "./users.carts.logic.ts";
 import { addUsersDiscountApi } from "./users.discount.api.ts";
 import { addUsersFactorApi } from "./users.factor.api.ts";
 import { addUsersInfoApi } from "./users.info.api.ts";
-import { getAllUsers, getUserById, login } from "./users.logic.ts";
+import {
+  checkUsernameOrEmailOrMobile,
+  createUser,
+  findUserByUsernameAndEmailOrMobile,
+  getAllUsers,
+  getUserById,
+  login,
+  updateUser,
+} from "./users.logic.ts";
 import { addUsersTicketApi } from "./users.ticket.api.ts";
 
 export function addUsersApi(app: express.Express) {
-
   addUsersInfoApi(app);
   addUsersDiscountApi(app);
   addUsersTicketApi(app);
@@ -28,14 +53,19 @@ export function addUsersApi(app: express.Express) {
       return res.status(400).json({
         result: null,
         isError: true,
-        message: "Login failed"
+        message: "Login failed",
       });
     }
-    const session = await addSession(user._id.toString(), user.role || "customer", req);
+    const session = await addSession(
+      user._id.toString(),
+      user.role || "customer",
+      req,
+    );
+
     res.json({
       result: user ? createSessionUser(user, session) : null,
       isError: !user,
-      message: user ? "Login successful" : "Login failed"
+      message: user ? "Login successful" : "Login failed",
     });
   });
 
@@ -45,7 +75,106 @@ export function addUsersApi(app: express.Express) {
     res.json({
       result: true,
       isError: false,
-      message: "Logout successful"
+      message: "Logout successful",
+    });
+  });
+
+  app.post("/api/auth/check", async (req, res) => {
+    const { username, email, mobile } = req.body;
+
+    const user = await checkUsernameOrEmailOrMobile(username, email || mobile);
+
+    if (!user) {
+      const newUser = await createUser({
+        username,
+        role: "customer",
+        email: email || undefined,
+        phoneNumber: mobile || undefined,
+        isAvailable: true,
+        confirmCode: "123456",
+      } as IUserDocument);
+    }
+
+    if (user && user.password) {
+      return _200(res, true, "User check successful");
+    }
+
+    if (user) {
+      updateUser(user._id.toString(), { confirmCode: "123456" });
+      return _200(res, false, "User check successful");
+    }
+
+    return _200(res, Boolean(user), "User check successful");
+  });
+
+  app.post("/api/auth/confirm", async (req, res) => {
+    const { username, email, mobile, code } = req.body;
+
+    const user = await findUserByUsernameAndEmailOrMobile(
+      username,
+      email || mobile,
+    );
+    if (!user || user.password || user.confirmCode !== code) {
+      return _400(res, "Invalid confirmation code");
+    }
+
+    if (email && !user.email) {
+      user.emailConfirmed = true;
+    } else if (mobile && !user.phoneNumber) {
+      user.phoneNumberConfirmed = true;
+    }
+
+    await updateUser(user!._id.toString(), {
+      emailConfirmed: user.emailConfirmed,
+      phoneNumberConfirmed: user.phoneNumberConfirmed,
+      confirmCode: null,
+    });
+    _200(res, Boolean(user), "User confirmed successfully");
+  });
+
+  app.post("/api/auth/complete", async (req, res) => {
+    const {
+      username,
+      emailOrMobile,
+      firstName,
+      lastName,
+      password,
+      rePassword,
+    } = req.body;
+
+    const user = await findUserByUsernameAndEmailOrMobile(
+      username,
+      emailOrMobile,
+    );
+    if (!user) {
+      return _400(res, "User not found");
+    }
+    if (password !== rePassword) {
+      return _400(res, "Passwords do not match");
+    }
+    if (user.password || user.confirmCode) {
+      return _400(res, "Can not complete registration for this user");
+    }
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.password = password;
+
+    await updateUser(user!._id.toString(), {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      password: user.password
+    });
+
+    const session = await addSession(
+      user._id.toString(),
+      user.role || "customer",
+      req,
+    );
+
+    res.json({
+      result: user ? createSessionUser(user, session) : null,
+      isError: !user,
+      message: user ? "Login successful" : "Login failed",
     });
   });
 
@@ -58,7 +187,7 @@ export function addUsersApi(app: express.Express) {
     res.json({
       result: user ? createSessionUser(user, session) : null,
       isError: false,
-      message: "User information retrieved successfully"
+      message: "User information retrieved successfully",
     });
   });
 
@@ -70,7 +199,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: await getCarts(session.userId),
       isError: false,
-      message: "User shopping cart retrieved successfully"
+      message: "User shopping cart retrieved successfully",
     });
   });
 
@@ -85,7 +214,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: products,
       isError: false,
-      message: "User products retrieved successfully"
+      message: "User products retrieved successfully",
     });
   });
 
@@ -99,7 +228,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: await getCarts(session.userId),
       isError: false,
-      message: "User shopping cart retrieved successfully"
+      message: "User shopping cart retrieved successfully",
     });
   });
 
@@ -112,7 +241,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: Boolean(up),
       isError: false,
-      message: "User shopping cart removed successfully"
+      message: "User shopping cart removed successfully",
     });
   });
 
@@ -121,14 +250,17 @@ export function addUsersApi(app: express.Express) {
     if (!session) {
       return _401(res);
     }
-    const isFavorite = await isProductInFavorites(session.userId, req.params.id);
+    const isFavorite = await isProductInFavorites(
+      session.userId,
+      req.params.id,
+    );
     return res.json({
       result: {
         isFavorite,
-        isRegistered: true
+        isRegistered: true,
       },
       isError: false,
-      message: "User favorite status retrieved successfully"
+      message: "User favorite status retrieved successfully",
     });
   });
 
@@ -179,21 +311,36 @@ export function addUsersApi(app: express.Express) {
     const { contentScore, priceScore, supportScore, productScore } = req.body;
 
     const scoreCount = (product.scoreCount || 0) + 1;
-    const userAvg = (contentScore + priceScore + supportScore + productScore) / 4;
+    const userAvg = (contentScore + priceScore + supportScore + productScore) /
+      4;
     const avgUserScores: ProductUserScore = {
-      contentScore: ((product.avgUserScores?.contentScore || 0) + contentScore) / scoreCount,
-      priceScore: ((product.avgUserScores?.priceScore || 0) + priceScore) / scoreCount,
-      supportScore: ((product.avgUserScores?.supportScore || 0) + supportScore) / scoreCount,
-      productScore: ((product.avgUserScores?.productScore || 0) + productScore) / scoreCount
+      contentScore:
+        ((product.avgUserScores?.contentScore || 0) + contentScore) /
+        scoreCount,
+      priceScore: ((product.avgUserScores?.priceScore || 0) + priceScore) /
+        scoreCount,
+      supportScore:
+        ((product.avgUserScores?.supportScore || 0) + supportScore) /
+        scoreCount,
+      productScore:
+        ((product.avgUserScores?.productScore || 0) + productScore) /
+        scoreCount,
     };
     const avg = ((product.score || 0) + userAvg) / scoreCount;
 
-    await updateUserScoreProduct(session.userId, product._id.toString(), avg, scoreCount, avgUserScores, {
-      contentScore,
-      priceScore,
-      supportScore,
-      productScore
-    });
+    await updateUserScoreProduct(
+      session.userId,
+      product._id.toString(),
+      avg,
+      scoreCount,
+      avgUserScores,
+      {
+        contentScore,
+        priceScore,
+        supportScore,
+        productScore,
+      },
+    );
 
     return _200(res, true);
   });
@@ -203,13 +350,16 @@ export function addUsersApi(app: express.Express) {
     if (!session) {
       return _401(res);
     }
-    const isFavorite = await isProductInFavorites(session.userId, req.params.id);
+    const isFavorite = await isProductInFavorites(
+      session.userId,
+      req.params.id,
+    );
     if (isFavorite) {
       const fav = await removeProductInFavorites(session.userId, req.params.id);
       return res.json({
         result: fav,
         isError: false,
-        message: "User favorite product removed successfully"
+        message: "User favorite product removed successfully",
       });
     }
 
@@ -217,7 +367,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: fav,
       isError: false,
-      message: "User favorite product added successfully"
+      message: "User favorite product added successfully",
     });
   });
 
@@ -230,9 +380,9 @@ export function addUsersApi(app: express.Express) {
     const favs = await getProductsInFavorites(session.userId);
 
     return res.json({
-      result: favs.map(f => f.product),
+      result: favs.map((f) => f.product),
       isError: false,
-      message: "User favorite product added successfully"
+      message: "User favorite product added successfully",
     });
   });
 
@@ -247,7 +397,7 @@ export function addUsersApi(app: express.Express) {
     return res.json({
       result: comments,
       isError: false,
-      message: "User comments retrieved successfully"
+      message: "User comments retrieved successfully",
     });
   });
 }
@@ -259,7 +409,7 @@ function createSessionUser(user: IUserDocument, session: ISessionDocument) {
       id: user._id,
       userId: user._id,
       password: null,
-      fullName: (`${user.firstName || ''} ${user.lastName || ''}`).trim()
+      fullName: (`${user.firstName || ""} ${user.lastName || ""}`).trim(),
     },
     profile: {
       iss: user._id.toString(),
@@ -268,14 +418,12 @@ function createSessionUser(user: IUserDocument, session: ISessionDocument) {
       sid: user._id.toString(),
       name: user.username,
       given_name: user.username,
-      role: user.role
+      role: user.role,
     },
     user: {
       id_token: user._id,
       access_token: session._id,
-      expires_at: session.expiresAt
-    }
+      expires_at: session.expiresAt,
+    },
   };
-
 }
-

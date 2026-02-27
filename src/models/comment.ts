@@ -10,7 +10,8 @@ export interface IComment {
   userFullName: string;
   comment: string;
   userScore?: number;
-  createdAt: Date;
+  createdAt: Date | string;
+  modifiedAt: Date | string;
   approved: boolean;
 }
 

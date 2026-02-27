@@ -3,7 +3,13 @@ import { ICategoryDocument } from "@app/models";
 
 
 export function getAllCategories() {
-  return context.category.find({}).exec();
+  return context.category.find({
+    isAvailable: true
+  }).sort({order: 1}).exec();
+}
+
+export function getAdminAllCategories() {
+  return context.category.find({}).sort({order: 1}).exec();
 }
 
 export function updateCategory(id: string, data: Partial<ICategoryDocument>): Promise<ICategoryDocument | null> {

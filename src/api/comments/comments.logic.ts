@@ -10,7 +10,7 @@ export function addComment(user: IUser, productId: string, comment: string, repl
     userFullName: `${user.firstName} ${user.lastName}`,
     comment,
     createdAt: new Date(),
-    createdAtFa: new Date(),
+    modifiedAt: new Date(),
     approved: true,
     userScore: 0,
   });
@@ -19,7 +19,7 @@ export function addComment(user: IUser, productId: string, comment: string, repl
 
 // get comments
 export function getProductComments(productId: string, page: number): Promise<ICommentDocument[]> {
-  return context.comment.find({ product: productId })
+  return context.comment.find({ product: productId, approved: true })
     .skip((page - 1) * 10)
     .limit(10)
     .sort({ createdAt: -1 })
@@ -32,4 +32,18 @@ export function getUserComments(userId: string): Promise<ICommentDocument[]> {
 
 export function getAllComments(): Promise<ICommentDocument[]> {
   return context.comment.find({}).sort({ createdAt: -1 }).populate("product").populate("user").exec();
+}
+
+export function updateComment(id: string, data: Partial<ICommentDocument>): Promise<ICommentDocument | null> {
+  data.modifiedAt = new Date();
+
+  return context.comment.findOneAndUpdate(
+    { _id: id },
+    { $set: data },
+    { new: true }
+  ).populate("user").populate("product");
+}
+
+export function deleteComment(id: string): Promise<ICommentDocument | null> {
+  return context.comment.findOneAndDelete({ _id: id });
 }

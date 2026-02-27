@@ -20,7 +20,7 @@ import { categorySchema } from "./category-schema.ts";
 import { commentSchema } from "./commnet-schema.ts";
 import { discountSchema } from "./discount-schema.ts";
 import { favoriteSchema } from "./favorite.schema.ts";
-import { pageSchema } from "./home-page.schema.ts";
+import { pageSchema } from "./page.schema.ts";
 import { orderSchema } from "./order-schema.ts";
 import { productSchema } from "./product-schema.ts";
 import { sessionSchema } from "./session-schema.ts";

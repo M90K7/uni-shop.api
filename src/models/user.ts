@@ -31,6 +31,7 @@ export interface IUser {
   addressOfResidence: string;
   postalCodeOfResidence: string;
   isAvailable: boolean;
+  confirmCode: string | null;
   userBankAccounts: UserBankAccount[];
   // شناسه های محصول سبد خرید
   carts: string[];
